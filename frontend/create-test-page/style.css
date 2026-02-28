@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    background: #bed8ff;
+    color: #1e293b;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 40px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 18px;
+}
+
+header h1 {
+    font-size: 32px;
+    color: #09174a;        
+    margin-bottom: 8px;
+}
+
+header p {
+    font-size: 20px;
+    color: rgba(47, 68, 163, 0.51);
+    font-weight: 550;
+}
+
+.create-test h2{
+    font-size: 25px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid rgba(47, 68, 163, 0.51);
+    padding-bottom: 8px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 22px;
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: rgba(9, 23, 74, 0.66);
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 70%;
+    height: 30px;
+    border: 2px solid rgba(47, 68, 163, 0.51);
+    border-radius: 12px;
+    font-size: 14px;
+    color: #050e32;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;         
+    border-color: rgba(9, 23, 74, 0.66); 
+}
+
+.btn
+{
+    width: 70%;
+    height: 27px;
+    padding: 14px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;      
+    text-align: center;       
+    background: rgba(232, 243, 255, 0.85);
+    color: #09174a;
+    border: rgba(9, 23, 74, 0.51) 3px solid;
+    border-radius: 12px;
+    margin-top: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+}
+.btn:hover {
+    background: rgba(47, 68, 163, 0.24);
+}

@@ -16,3 +16,7 @@
 .idea/
 Scratches and Consoles/
 *.iml
+
+# C# build folders
+[Bb]in/
+[Oo]bj/
