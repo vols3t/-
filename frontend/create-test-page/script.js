@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const questionsCount = document.getElementById('questions-count').value;
         const formData = {
             topic: topic,
-            questions: parseInt(questionsCount),
+            questionsCount: parseInt(questionsCount),
         }
         console.log('Отправка данных:', formData);
         try {
