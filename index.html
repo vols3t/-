@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyHelper - создание теста </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>StudyHelper - твоя правая рука в учебе</h1>
+        <p>Создай тест за секунду</p>
+    </header>
+    <main>
+        <section class="create-test">
+            <h2>Создание теста</h2>
+            <form id="testForm">
+
+                <div class="form-group">
+                    <label for="topic">Тема теста</label> <br>
+                    <input type="text" id="topic" name="topic"
+                           placeholder="Пример: персонажи романа «Герой нашего времени»" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="questions">Количество вопросов</label>
+                    <input type="number" id="questions" name="questions"
+                           placeholder="Пример: 10"
+                           min="1" max="50" value="10" required>
+                </div>
+
+                <button type="submit" class="btn">Создать тест</button>
+
+            </form>
+        </section>
+    </main>
+</div>
+</body>
+</html>
+
