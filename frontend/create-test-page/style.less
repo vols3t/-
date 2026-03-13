@@ -1,0 +1,272 @@
+/* Reset and base styles  */
+* {
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Links */
+
+a,
+a:link,
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Common */
+
+aside,
+nav,
+footer,
+header,
+section,
+main {
+    display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+ul,
+ul li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+img,
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+address {
+    font-style: normal;
+}
+
+/* Form */
+
+input,
+textarea,
+button,
+select {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background-color: transparent;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button,
+input[type="submit"] {
+    display: inline-block;
+    box-shadow: none;
+    background-color: transparent;
+    background: none;
+    cursor: pointer;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+label {
+    cursor: pointer;
+}
+
+legend {
+    display: block;
+}
+
+input[type='file'] {
+    max-width: 100%;
+}
+/* Конец отключения стилей */
+
+
+// Переменные (Опционально, но полезно для LESS)
+@body-bg: #bed8ff;
+@text-color: #1e293b;
+@header-color: #09174a;
+@accent-color: rgba(47, 68, 163, 0.51);
+@input-border: rgba(47, 68, 163, 0.51);
+@focus-color: rgba(9, 23, 74, 0.66);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    background: @body-bg;
+    color: @text-color;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+main{
+    #testTopic{
+        text-align: center;
+        color: blue;
+        font-size: large;
+        margin: 5px 0px 10px 0px;
+    }
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 18px;
+
+    h1 {
+        font-size: 32px;
+        color: @header-color;
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 20px;
+        color: @accent-color;
+        font-weight: 550;
+    }
+}
+
+.create-test {
+    h2 {
+        font-size: 25px;
+        margin-bottom: 24px;
+        border-bottom: 2px solid @accent-color;
+        padding-bottom: 8px;
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+
+    label {
+        font-size: 22px;
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: @focus-color;
+    }
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 70%;
+    height: 30px;
+    border: 2px solid @input-border;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #050e32;
+    transition: border-color 0.2s;
+
+    // Использование & для обращения к родителю (input[type="text"], input[type="number"])
+    &:focus {
+        outline: none;
+        border-color: @focus-color;
+    }
+}
+
+.btn {
+    width: 70%;
+    height: 27px;
+    padding: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: rgba(232, 243, 255, 0.85);
+    color: @header-color;
+    border: @focus-color 3px solid;
+    border-radius: 12px;
+    margin-top: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+
+    &:hover {
+        background: rgba(47, 68, 163, 0.24);
+    }
+}
+
+#quizForm {
+    .form-group {
+        margin-bottom: 25px;
+        padding: 20px;
+        border: 1px solid @accent-color;
+        border-radius: 12px;
+        background: white;
+
+        .label {
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            background: #f0f0f0;
+            margin-bottom: 8px;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+
+            input[type="checkbox"] {
+                margin-right: 15px;
+                transform: scale(1.2);
+            }
+
+            &:hover {
+                background: #e0e0e0;
+            }
+
+            &:has(input:checked) {
+                background: deepskyblue;
+                color: white; // чтобы текст был виден
+            }
+        }
+    }
+}

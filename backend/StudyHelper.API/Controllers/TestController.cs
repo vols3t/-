@@ -8,22 +8,25 @@ namespace StudyHelper.API.Controllers;
 public class TestController : ControllerBase
 {
     [HttpPost("create")]
-    public IActionResult CreateTest([FromBody] TestRequestModel request)
+    public IActionResult CreateTest([FromBody] TestRequestModel? request)
     {
-        if (request == null || string.IsNullOrWhiteSpace(request.Topic))
+        if (request is null || string.IsNullOrWhiteSpace(request.Topic))
         {
             return BadRequest(new { error = "Тема теста не может быть пустой" });
         }
 
-        var response = new
+        // Здесь позже будет вызов к ChatGPT API, пока просто заглушка
+        var mockQuestions = new List<object>();
+        for (int i = 1; i <= request.QuestionsCount; i++)
         {
-            message = "Тест успешно создан",
-            test = new
+            mockQuestions.Add(new
             {
-                topic = request.Topic,
-                questionsCount = request.QuestionsCount,
-            }
-        };
-        return Ok(response);
+                id = i,
+                questionText = $"Вопрос: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae perferendis aliquam officia praesentium voluptatum similique reprehenderit recusandae obcaecati! Ut quaerat cumque laborum amet ducimus similique?",
+                options = new[] { "Вариант А", "Вариант Б", "Вариант В", "Вариант Г" }
+            });
+        }
+
+        return Ok(mockQuestions);
     }
 }
