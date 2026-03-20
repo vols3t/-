@@ -19,7 +19,8 @@ public class SubmitController : ControllerBase
                 $"здесь будет сам вопрос (найдем по ID) {userAnswer.QuestionID}",
                 "Вариант А")
             {
-                RealAnswer = userAnswer.Answer
+                RealAnswer = userAnswer.Answer,
+                Answers = new List<string> { "Вариант А", "Вариант Б", "Вариант В", "Вариант Г" }
             };
             if (userAnswer.Answer == "Вариант А")
             {

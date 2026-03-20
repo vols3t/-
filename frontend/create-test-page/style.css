@@ -1,23 +1,27 @@
 /* Reset and base styles  */
 * {
-  padding: 0px;
-  margin: 0px;
-  border: none;
+    padding: 0px;
+    margin: 0px;
+    border: none;
 }
+
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 /* Links */
 a,
 a:link,
 a:visited {
-  text-decoration: none;
+    text-decoration: none;
 }
+
 a:hover {
-  text-decoration: none;
+    text-decoration: none;
 }
+
 /* Common */
 aside,
 nav,
@@ -25,8 +29,9 @@ footer,
 header,
 section,
 main {
-  display: block;
+    display: block;
 }
+
 h1,
 h2,
 h3,
@@ -34,184 +39,268 @@ h4,
 h5,
 h6,
 p {
-  font-size: inherit;
-  font-weight: inherit;
+    font-size: inherit;
+    font-weight: inherit;
 }
+
 ul,
 ul li {
-  list-style: none;
+    list-style: none;
 }
+
 img {
-  vertical-align: top;
+    vertical-align: top;
 }
+
 img,
 svg {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
+
 address {
-  font-style: normal;
+    font-style: normal;
 }
+
 /* Form */
 input,
 textarea,
 button,
 select {
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-  background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background-color: transparent;
 }
+
 input::-ms-clear {
-  display: none;
+    display: none;
 }
+
 textarea {
-  resize: vertical;
+    resize: vertical;
 }
+
 button,
 input[type="submit"] {
-  display: inline-block;
-  box-shadow: none;
-  background-color: transparent;
-  background: none;
-  cursor: pointer;
+    display: inline-block;
+    box-shadow: none;
+    background-color: transparent;
+    background: none;
+    cursor: pointer;
 }
+
 button::-moz-focus-inner {
-  padding: 0;
-  border: 0;
+    padding: 0;
+    border: 0;
 }
+
 label {
-  cursor: pointer;
+    cursor: pointer;
 }
+
 legend {
-  display: block;
+    display: block;
 }
+
 input[type='file'] {
-  max-width: 100%;
+    max-width: 100%;
 }
+
 /* Конец отключения стилей */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
 body {
-  font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-  background: #bed8ff;
-  color: #1e293b;
-  line-height: 1.6;
-  padding: 20px;
+    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    background: #bed8ff;
+    color: #1e293b;
+    line-height: 1.6;
+    padding: 20px;
 }
+
 main #testTopic {
-  text-align: center;
-  color: blue;
-  font-size: large;
-  margin: 5px 0px 10px 0px;
+    text-align: center;
+    color: blue;
+    font-size: large;
+    margin: 5px 0px 10px 0px;
 }
+
 .container {
-  max-width: 600px;
-  margin: 40px auto;
-  background: white;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 40px;
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
 }
+
 header {
-  text-align: center;
-  margin-bottom: 32px;
-  font-size: 18px;
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 18px;
 }
+
 header h1 {
-  font-size: 32px;
-  color: #09174a;
-  margin-bottom: 8px;
+    font-size: 32px;
+    color: #09174a;
+    margin-bottom: 8px;
 }
+
 header p {
-  font-size: 20px;
-  color: rgba(47, 68, 163, 0.51);
-  font-weight: 550;
+    font-size: 20px;
+    color: rgba(47, 68, 163, 0.51);
+    font-weight: 550;
 }
+
 .create-test h2 {
-  font-size: 25px;
-  margin-bottom: 24px;
-  border-bottom: 2px solid rgba(47, 68, 163, 0.51);
-  padding-bottom: 8px;
+    font-size: 25px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid rgba(47, 68, 163, 0.51);
+    padding-bottom: 8px;
 }
+
 .form-group {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
+
 .form-group label {
-  font-size: 22px;
-  display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: rgba(9, 23, 74, 0.66);
+    font-size: 22px;
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: rgba(9, 23, 74, 0.66);
 }
+
 input[type="text"],
 input[type="number"] {
-  width: 70%;
-  height: 30px;
-  border: 2px solid rgba(47, 68, 163, 0.51);
-  border-radius: 12px;
-  font-size: 14px;
-  color: #050e32;
-  transition: border-color 0.2s;
+    width: 70%;
+    height: 30px;
+    border: 2px solid rgba(47, 68, 163, 0.51);
+    border-radius: 12px;
+    font-size: 14px;
+    color: #050e32;
+    transition: border-color 0.2s;
 }
+
 input[type="text"]:focus,
 input[type="number"]:focus {
-  outline: none;
-  border-color: rgba(9, 23, 74, 0.66);
+    outline: none;
+    border-color: rgba(9, 23, 74, 0.66);
 }
+
 .btn {
-  width: 70%;
-  height: 27px;
-  padding: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background: rgba(232, 243, 255, 0.85);
-  color: #09174a;
-  border: rgba(9, 23, 74, 0.66) 3px solid;
-  border-radius: 12px;
-  margin-top: 16px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 16px;
+    width: 70%;
+    height: 27px;
+    padding: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: rgba(232, 243, 255, 0.85);
+    color: #09174a;
+    border: rgba(9, 23, 74, 0.66) 3px solid;
+    border-radius: 12px;
+    margin-top: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
 }
+
 .btn:hover {
-  background: rgba(47, 68, 163, 0.24);
+    background: rgba(47, 68, 163, 0.24);
 }
+
 #quizForm .form-group {
-  margin-bottom: 25px;
-  padding: 20px;
-  border: 1px solid rgba(47, 68, 163, 0.51);
-  border-radius: 12px;
-  background: white;
+    margin-bottom: 25px;
+    padding: 20px;
+    border: 1px solid rgba(47, 68, 163, 0.51);
+    border-radius: 12px;
+    background: white;
 }
+
 #quizForm .form-group .label {
-  font-weight: 600;
-  margin-bottom: 15px;
-  display: block;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: block;
 }
+
 #quizForm .form-group .option-item {
-  display: flex;
-  align-items: center;
-  background: #f0f0f0;
-  margin-bottom: 8px;
-  padding: 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    background: #f0f0f0;
+    margin-bottom: 8px;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
 }
+
 #quizForm .form-group .option-item input[type="checkbox"] {
-  margin-right: 15px;
-  transform: scale(1.2);
+    margin-right: 15px;
+    transform: scale(1.2);
 }
+
 #quizForm .form-group .option-item:hover {
-  background: #e0e0e0;
+    background: #e0e0e0;
 }
+
 #quizForm .form-group .option-item:has(input:checked) {
-  background: deepskyblue;
-  color: white;
+    background: deepskyblue;
+    color: white;
+}
+
+.result-card {
+    margin-bottom: 25px;
+    padding: 20px;
+    border: 1px solid rgba(47, 68, 163, 0.51);
+    border-radius: 12px;
+    background: white;
+    text-align: left;
+}
+
+.result-card .label {
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    background: #f0f0f0;
+    margin-bottom: 8px;
+    padding: 12px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+}
+
+.option--correct {
+    background: #bee8a7 !important;
+    border-color: darkgreen !important;
+    color: #064006;
+}
+
+.option--error {
+    background: #f5a9a9 !important;
+    border-color: darkred !important;
+    color: #4a0000;
+}
+
+#resultsContainer {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#correctAnswers {
+    font-size: 40px;
+    text-align: center;
+}
+
+#returnBtn {
+    margin: 30px auto;
+    display: flex;
 }
