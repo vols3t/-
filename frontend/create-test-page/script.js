@@ -69,6 +69,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (!response.ok) throw new Error("Ошибка сервера");
 
                     const result = await response.json();
+                    JSON.stringify(result);
+                    localStorage.setItem('lastTestResult', JSON.stringify(result));
+                    window.location.href = 'results.html';
 
                 } catch (error) {
                     console.log("Ошибка при проверке:" + error);
