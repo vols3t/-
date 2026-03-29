@@ -8,18 +8,22 @@ namespace StudyHelper.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class TestController : ControllerBase
-{   
-    // дада ключ нельзя
-    private const string OpenRouterApiKey = "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";
+{
+    private readonly string _apiKey;
+
+    // Конструктор: ASP.NET сам передаст сюда настройки (IConfiguration) при запуске
+    public TestController(IConfiguration configuration)
+    {
+        _apiKey = configuration["OpenRouter:ApiKey"] 
+                  ?? throw new Exception("Ключ API не найден в настройках!");
+    }
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateTest([FromBody] TestRequestModel? request)
     {
         if (request is null || string.IsNullOrWhiteSpace(request.Topic))
-        {
             return BadRequest(new { error = "Тема теста не может быть пустой" });
-        }
-
+        
         var count = request.QuestionsCount > 0 ? request.QuestionsCount : 3;
 
         var prompt = $@"Ты крутой учитель. Создай тест из {count} вопросов по теме: '{request.Topic}'.
@@ -37,7 +41,7 @@ public class TestController : ControllerBase
                 try
         {
             using var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {OpenRouterApiKey}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
             client.DefaultRequestHeaders.Add("HTTP-Referer", "http://localhost:5152");
             client.DefaultRequestHeaders.Add("X-Title", "StudyHelperLocal");
 
