@@ -20,3 +20,5 @@ Scratches and Consoles/
 # C# build folders
 [Bb]in/
 [Oo]bj/
+
+**/appsettings.Development.json
