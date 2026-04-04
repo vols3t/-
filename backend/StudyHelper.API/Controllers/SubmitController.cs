@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudyHelper.API.DTO;
 using StudyHelper.API.Models;
+using StudyHelper.API.Services;
 
 namespace StudyHelper.API.Controllers;
 
@@ -8,28 +9,17 @@ namespace StudyHelper.API.Controllers;
 [Route("api/[controller]")]
 public class SubmitController : ControllerBase
 {
-    [HttpPost("submit")]
-    public IActionResult SubmitTest([FromBody] List<UserAnswerDto> userAnswers)
+    private readonly ITestService _testService;
+
+    public SubmitController(ITestService testService)
     {
-        var viewModel = new TestResultViewModel();
-        foreach (var userAnswer in userAnswers)
-        {
-            // пока нет бд, в качестве заглушки правильный ответ всегда А
-            var dto = new QuestionResultDto(userAnswer.QuestionID,
-                $"здесь будет сам вопрос (найдем по ID) {userAnswer.QuestionID}",
-                "Вариант А")
-            {
-                RealAnswer = userAnswer.Answer,
-                Answers = new List<string> { "Вариант А", "Вариант Б", "Вариант В", "Вариант Г" }
-            };
-            if (userAnswer.Answer == "Вариант А")
-            {
-                dto.IsCorrectAnswer = true;
-            }
+        _testService = testService;
+    }
 
-            viewModel.Questions.Add(dto);
-        }
-
+    [HttpPost("submit")]
+    public async Task<IActionResult> SubmitTest([FromBody] List<UserAnswerDto> userAnswers)
+    {
+        var viewModel = await _testService.CheckTestAsync(userAnswers);
         return Ok(viewModel);
     }
 }

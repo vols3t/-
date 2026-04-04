@@ -22,7 +22,8 @@ public class TestService : ITestService
             var question = await _questionRepository.GetByIdAsync(questionId);
             if (question == null) continue;
             var answer = userAnswer.Answer;
-            var isCorrectAnswer = string.Equals(question.CorrectAnswer.Trim().ToLower(), answer.Trim().ToLower());
+            var isCorrectAnswer = string.Equals(question.CorrectAnswer.Trim(), answer.Trim(),
+                StringComparison.OrdinalIgnoreCase);
             var questionResultDto = new QuestionResultDto()
             {
                 QuestionId = question.Id,
