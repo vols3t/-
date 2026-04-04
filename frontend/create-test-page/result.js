@@ -1,7 +1,9 @@
 const savedResults = JSON.parse(localStorage.getItem('lastTestResult'));
 
 const main = document.querySelector('main');
-main.innerHTML = `<h2 id="correctAnswers"><b>Твой результат: ${savedResults.correctAnswers} из ${savedResults.totalAnswers}!</b></h2>`;
+main.innerHTML = `<h2 id="correctAnswers">
+    <b>Твой результат: ${savedResults.correctAnswers} из ${savedResults.totalAnswers}!</b>
+   </h2>`;
 
 savedResults.questions.forEach((q, index) => {
     const optionsHtml = q.answers.map(opt => {
@@ -22,7 +24,7 @@ savedResults.questions.forEach((q, index) => {
 
     main.innerHTML += `
         <div class="form-group result-card">
-            <span class="label">${index + 1}. ${q.question}</span>
+            <span class="label">${index + 1}. ${q.questionText}</span>
             <div class="options-container">
                 ${optionsHtml}
             </div>

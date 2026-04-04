@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using StudyHelper.API.Models;
 using System.Text.Json;
 using System.Text;
+using StudyHelper.API.Data;
+using StudyHelper.API.DTO;
 
 namespace StudyHelper.API.Controllers;
 
@@ -10,11 +12,12 @@ namespace StudyHelper.API.Controllers;
 public class TestController : ControllerBase
 {
     private readonly string _apiKey;
+    private readonly ApplicationDbContext _context;
 
-    // Конструктор: ASP.NET сам передаст сюда настройки (IConfiguration) при запуске
-    public TestController(IConfiguration configuration)
+    public TestController(IConfiguration configuration, ApplicationDbContext context)
     {
-        _apiKey = configuration["OpenRouter:ApiKey"] 
+        _context = context;
+        _apiKey = configuration["OpenRouter:ApiKey"]
                   ?? throw new Exception("Ключ API не найден в настройках!");
     }
 
@@ -23,7 +26,7 @@ public class TestController : ControllerBase
     {
         if (request is null || string.IsNullOrWhiteSpace(request.Topic))
             return BadRequest(new { error = "Тема теста не может быть пустой" });
-        
+
         var count = request.QuestionsCount > 0 ? request.QuestionsCount : 3;
 
         var prompt = $@"Ты крутой учитель. Создай тест из {count} вопросов по теме: '{request.Topic}'.
@@ -38,7 +41,7 @@ public class TestController : ControllerBase
             }}
         ]";
 
-                try
+        try
         {
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
@@ -57,7 +60,6 @@ public class TestController : ControllerBase
             var response = await client.PostAsync("https://openrouter.ai/api/v1/chat/completions", content);
             var responseString = await response.Content.ReadAsStringAsync();
 
-            // аналитика ошибок
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine("\n=== ОШИБКА ОТ OPENROUTER ===");
@@ -78,13 +80,21 @@ public class TestController : ControllerBase
                 return BadRequest(new { error = "Нейросеть вернула пустой ответ" });
 
             aiText = aiText.Replace("```json", "").Replace("```", "").Trim();
-            
+
             Console.WriteLine("\n=== ОТВЕТ НЕЙРОСЕТИ ===");
             Console.WriteLine(aiText);
             Console.WriteLine("=======================\n");
 
-            var resultJson = JsonSerializer.Deserialize<object>(aiText);
-            return Ok(resultJson);
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var resultJson = JsonSerializer.Deserialize<List<Question>>(aiText, options);
+            foreach (var question in resultJson)
+                question.Id = 0;
+            _context.Questions.AddRange(resultJson);
+            await _context.SaveChangesAsync();
+
+            var viewJson = resultJson.Select(q => new { q.Id, questionText = q.Text, options = q.Answers });
+
+            return Ok(viewJson);
         }
         catch (Exception ex)
         {

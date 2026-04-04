@@ -31,6 +31,7 @@ public class TestService : ITestService
                 Answers = question.Answers,
                 RealAnswer = answer,
                 IsCorrectAnswer = isCorrectAnswer,
+                CorrectAnswer = question.CorrectAnswer
             };
             result.Questions.Add(questionResultDto);
         }

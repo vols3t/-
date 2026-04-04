@@ -6,12 +6,6 @@ public class QuestionResultDto
     public string QuestionText { get; set; }
     public List<string> Answers { get; set; }
     public string RealAnswer { get; set; }
+    public string CorrectAnswer { get; set; }
     public bool IsCorrectAnswer { get; set; } = false;
-
-    // public QuestionResultDto(int questionId, string questionText, string correctAnswer)
-    // {
-    //     QuestionId = questionId;
-    //     QuestionText = questionText;
-    //     CorrectAnswer = correctAnswer;
-    // }
 }
