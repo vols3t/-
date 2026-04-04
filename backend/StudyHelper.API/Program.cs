@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using StudyHelper.API.Data;
+using StudyHelper.API.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -11,6 +15,11 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseInMemoryDatabase("StudyHelperDb"));
+
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 //builder.Services.AddOpenApi();
 
