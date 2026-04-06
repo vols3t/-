@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель Преподавателя - Генерация теста</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link no-print">⬅ Назад на главную</a>
+
+        <div class="header-section">
+            <h1>Панель Преподавателя</h1>
+            <p>Генерация теста с помощью ИИ</p>
+        </div>
+
+        <div class="settings-card no-print">
+            <form id="generateForm">
+                <div class="input-group">
+                    <label for="topic">Тема теста:</label>
+                    <input type="text" id="topic" placeholder="Например: История Древнего Рима" required>
+                </div>
+                <div class="input-group">
+                    <label for="questionsCount">Количество вопросов:</label>
+                    <input type="number" id="questionsCount" min="1" max="20" value="5" required>
+                </div>
+                <button type="submit" class="btn-generate" id="generateBtn">Сгенерировать тест</button>
+            </form>
+        </div>
+
+
+        <div id="loading" class="loading hidden no-print">
+            <div class="spinner"></div>
+            <p>Нейронка думает... Это может занять секунд 10-20 ⏳</p>
+        </div>
+
+        <div id="resultSection" class="result-section hidden">
+            <div class="result-header no-print">
+                <h2>Готовый тест</h2>
+                
+                <div class="download-section">
+                    <span class="download-label">Сохранить в PDF:</span>
+                    <div class="print-actions">
+                        <button id="downloadPdfWithAnsBtn" class="btn-pdf">С ответами</button>
+                        <button id="downloadPdfNoAnsBtn" class="btn-pdf btn-pdf-outline"> Без ответов</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="testContent" class="test-content">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
