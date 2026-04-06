@@ -92,7 +92,12 @@ public class TestController : ControllerBase
             _context.Questions.AddRange(resultJson);
             await _context.SaveChangesAsync();
 
-            var viewJson = resultJson.Select(q => new { q.Id, questionText = q.Text, options = q.Answers });
+            var viewJson = resultJson.Select(q => new { 
+                q.Id, 
+                questionText = q.Text, 
+                options = q.Answers, 
+                correctAnswer = q.CorrectAnswer 
+            });
 
             return Ok(viewJson);
         }
