@@ -21,17 +21,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-if (builder.Environment.IsProduction())
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseNpgsql(connectionString));
-}
-else
-{
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseInMemoryDatabase("StudyHelperDb"));
-}
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseInMemoryDatabase("StudyHelperDb"));
+
 
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<ITestService, TestService>();
