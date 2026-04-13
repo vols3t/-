@@ -1,16 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Результаты</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прохождение теста</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<main id="resultsContainer">
-    <button type="button" class="btn" id="returnBtn">Вернуться к тесту</button>
-</main>
+    <div class="container" style="max-width: 800px;">
+        
+        <div class="header-section">
+            <h1>Тестирование</h1>
+            <p id="topicTitle" style="font-weight: bold; color: #3498db;">Тема: Загрузка...</p>
+        </div>
 
-<script src="result.js"></script>
+
+        <div id="scoreBoard" class="score-board hidden">
+            <h2 id="scoreText">Твой результат: 0 из 0</h2>
+            <p id="scoreMessage">Молодец!</p>
+        </div>
+
+        <div class="settings-card" id="testContainer">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Загружаем вопросы...</p>
+            </div>
+        </div>
+
+        <button id="finishTestBtn" class="btn-generate hidden" style="margin-top: 20px;">Завершить тест</button>
+        
+        <a href="../index.html" id="homeBtn" class="btn-generate btn-outline hidden" style="margin-top: 20px; text-align: center; display: block; text-decoration: none;">Вернуться на главную</a>
+
+    </div>
+
+    <script src="result.js"></script>
 </body>
 </html>

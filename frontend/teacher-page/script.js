@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   async function fetchTestFromApi(topic, count) {
-    const response = await fetch("http://localhost:5152/api/Test/create", {
+    const response = await fetch("/api/Test/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ topic: topic, questionsCount: parseInt(count) }),
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <li>
                                         <label style="color: #27ae60; font-weight: bold;">
                                             <input type="radio" name="q${q.id || index}" checked disabled> 
-                                            ${ans} (✅ Правильный)
+                                            ${ans} (Правильный)
                                         </label>
                                     </li>
                                 `;

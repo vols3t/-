@@ -1,306 +1,72 @@
-/* Reset and base styles  */
-* {
-    padding: 0px;
-    margin: 0px;
-    border: none;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
+body { background-color: #f4f7f6; color: #333; padding: 40px 20px; }
 
-/* Links */
-a,
-a:link,
-a:visited {
-    text-decoration: none;
-}
+.container { max-width: 600px; margin: 0 auto; }
 
-a:hover {
-    text-decoration: none;
-}
+.back-link { display: inline-block; margin-bottom: 20px; color: #7f8c8d; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+.back-link:hover { color: #3498db; }
 
-/* Common */
-aside,
-nav,
-footer,
-header,
-section,
-main {
-    display: block;
-}
+.header-section { text-align: center; margin-bottom: 30px; }
+.header-section h1 { color: #2c3e50; font-size: 2.2rem; margin-bottom: 5px; }
+.header-section p { color: #7f8c8d; font-size: 1.1rem; }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-    font-size: inherit;
-    font-weight: inherit;
-}
+.settings-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid #3498db; }
 
-ul,
-ul li {
-    list-style: none;
-}
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #34495e; }
+.input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.3s; }
+.input-group input:focus { border-color: #3498db; }
 
-img {
-    vertical-align: top;
-}
 
-img,
-svg {
-    max-width: 100%;
-    height: auto;
-}
+.btn-generate { width: 100%; padding: 15px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+.btn-generate:hover { background-color: #2980b9; }
+.btn-generate:disabled { background-color: #95a5a6; cursor: not-allowed; }
 
-address {
-    font-style: normal;
-}
+.loading { text-align: center; margin: 30px 0; }
+.spinner { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* Form */
-input,
-textarea,
-button,
-select {
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    background-color: transparent;
-}
+.hidden { display: none !important; }
 
-input::-ms-clear {
-    display: none;
-}
+.error-box { background-color: #ffeaa7; color: #d35400; padding: 10px; border-radius: 6px; margin-bottom: 15px; text-align: center; font-weight: bold; font-size: 0.9rem;}
 
-textarea {
-    resize: vertical;
-}
+/* --- Стили для страницы прохождения теста --- */
+.question-block { margin-bottom: 25px; }
+.question-title { font-weight: bold; margin-bottom: 12px; font-size: 1.15rem; color: #2c3e50; }
+.answers-list { list-style: none; padding-left: 0; }
+.answers-list li { margin-bottom: 8px; }
 
-button,
-input[type="submit"] {
-    display: inline-block;
-    box-shadow: none;
-    background-color: transparent;
-    background: none;
-    cursor: pointer;
-}
-
-button::-moz-focus-inner {
-    padding: 0;
-    border: 0;
-}
-
-label {
-    cursor: pointer;
-}
-
-legend {
-    display: block;
-}
-
-input[type='file'] {
-    max-width: 100%;
-}
-
-/* Конец отключения стилей */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-    background: #bed8ff;
-    color: #1e293b;
-    line-height: 1.6;
-    padding: 20px;
-}
-
-main #testTopic {
-    text-align: center;
-    color: blue;
-    font-size: large;
-    margin: 5px 0px 10px 0px;
-}
-
-.container {
-    max-width: 600px;
-    margin: 40px auto;
-    background: white;
-    border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 32px;
-    font-size: 18px;
-}
-
-header h1 {
-    font-size: 32px;
-    color: #09174a;
-    margin-bottom: 8px;
-}
-
-header p {
-    font-size: 20px;
-    color: rgba(47, 68, 163, 0.51);
-    font-weight: 550;
-}
-
-.create-test h2 {
-    font-size: 25px;
-    margin-bottom: 24px;
-    border-bottom: 2px solid rgba(47, 68, 163, 0.51);
-    padding-bottom: 8px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    font-size: 22px;
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: rgba(9, 23, 74, 0.66);
-}
-
-input[type="text"],
-input[type="number"] {
-    width: 70%;
-    height: 30px;
-    border: 2px solid rgba(47, 68, 163, 0.51);
-    border-radius: 12px;
-    font-size: 14px;
-    color: #050e32;
-    transition: border-color 0.2s;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus {
-    outline: none;
-    border-color: rgba(9, 23, 74, 0.66);
-}
-
-.btn {
-    width: 70%;
-    height: 27px;
-    padding: 14px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: rgba(232, 243, 255, 0.85);
-    color: #09174a;
-    border: rgba(9, 23, 74, 0.66) 3px solid;
-    border-radius: 12px;
-    margin-top: 16px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
-}
-
-.btn:hover {
-    background: rgba(47, 68, 163, 0.24);
-}
-
-#quizForm .form-group {
-    margin-bottom: 25px;
-    padding: 20px;
-    border: 1px solid rgba(47, 68, 163, 0.51);
-    border-radius: 12px;
-    background: white;
-}
-
-#quizForm .form-group .label {
-    font-weight: 600;
-    margin-bottom: 15px;
-    display: block;
-}
-
-#quizForm .form-group .option-item {
+/* Красивые радио-кнопки */
+.answer-label {
     display: flex;
     align-items: center;
-    background: #f0f0f0;
-    margin-bottom: 8px;
-    padding: 12px;
-    border-radius: 6px;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border: 2px solid #ecf0f1;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
+.answer-label:hover { border-color: #3498db; background: #ebf5fb; }
+.answer-label input[type="radio"] { margin-right: 10px; transform: scale(1.2); cursor: pointer; }
 
-#quizForm .form-group .option-item input[type="checkbox"] {
-    margin-right: 15px;
-    transform: scale(1.2);
-}
+/* Цвета для результатов */
+.answer-label.correct { background-color: #d5f5e3; border-color: #2ecc71; color: #27ae60; font-weight: bold; }
+.answer-label.wrong { background-color: #fadbd8; border-color: #e74c3c; color: #c0392b; font-weight: bold; }
+.answer-label.disabled { cursor: not-allowed; opacity: 0.8; }
 
-#quizForm .form-group .option-item:hover {
-    background: #e0e0e0;
-}
-
-#quizForm .form-group .option-item:has(input:checked) {
-    background: deepskyblue;
+/* Плашка с итоговым счетом */
+.score-board {
+    background: #3498db;
     color: white;
-}
-
-.result-card {
-    margin-bottom: 25px;
     padding: 20px;
-    border: 1px solid rgba(47, 68, 163, 0.51);
     border-radius: 12px;
-    background: white;
-    text-align: left;
-}
-
-.result-card .label {
-    font-weight: 600;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.option-item {
-    display: flex;
-    align-items: center;
-    background: #f0f0f0;
-    margin-bottom: 8px;
-    padding: 12px;
-    border-radius: 6px;
-    border: 2px solid transparent;
-}
-
-.option--correct {
-    background: #bee8a7 !important;
-    border-color: darkgreen !important;
-    color: #064006;
-}
-
-.option--error {
-    background: #f5a9a9 !important;
-    border-color: darkred !important;
-    color: #4a0000;
-}
-
-#resultsContainer {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-#correctAnswers {
-    font-size: 40px;
     text-align: center;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
 }
+.score-board h2 { margin-bottom: 5px; font-size: 2rem; }
 
-#returnBtn {
-    margin: 30px auto;
-    display: flex;
-}
+.btn-outline { background-color: transparent; border: 2px solid #3498db; color: #3498db; }
+.btn-outline:hover { background-color: #3498db; color: white; }

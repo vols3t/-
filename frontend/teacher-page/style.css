@@ -166,12 +166,12 @@ body {
   margin-bottom: 5px;
 }
 
-/* --- Стили для блока скачивания --- */
+
 .download-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Прижимаем к правому краю */
-  gap: 8px; /* Расстояние между надписью и кнопками */
+  align-items: flex-end; 
+  gap: 8px;
 }
 
 .download-label {
