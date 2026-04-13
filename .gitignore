@@ -22,3 +22,4 @@ Scratches and Consoles/
 [Oo]bj/
 
 **/appsettings.Development.json
+**/appsettings.Production.json
