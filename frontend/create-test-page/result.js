@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     finishTestBtn.disabled = true;
 
     try {
-      const response = await fetch("/api/Submit/submit", {
+      const response = await fetch("api/Submit/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(studentAnswers),

@@ -44,7 +44,7 @@ public class TestController : ControllerBase
         {
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
-            client.DefaultRequestHeaders.Add("HTTP-Referer", "http://178.154.211.67"); 
+            client.DefaultRequestHeaders.Add("HTTP-Referer", "http://81.26.176.215"); 
             client.DefaultRequestHeaders.Add("X-Title", "StudyHelper");
 
             var requestBody = new
