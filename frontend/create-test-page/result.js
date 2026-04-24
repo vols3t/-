@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const response = await fetch(
-        "http://81.26.176.215/api/Submit/submit",
+        "http://81.26.190.46/api/Submit/submit",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

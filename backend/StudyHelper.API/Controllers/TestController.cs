@@ -49,7 +49,7 @@ public class TestController : ControllerBase
 
             var requestBody = new
             {
-                model = "nvidia/nemotron-3-nano-30b-a3b:free",
+                model = "gpt-4o-mini",
                 messages = new[] { new { role = "user", content = prompt } },
                 max_tokens = 4000
             };
