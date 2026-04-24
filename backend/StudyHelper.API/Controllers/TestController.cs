@@ -28,7 +28,17 @@ public class TestController : ControllerBase
             return BadRequest(new { error = "Тема теста не может быть пустой" });
 
         var count = request.QuestionsCount > 0 ? request.QuestionsCount : 3;
-        var prompt = $"Создай тест на тему {request.Topic} на {count} вопросов в формате JSON.";
+        var prompt = $@"Ты крутой учитель. Создай тест из {count} вопросов по теме: '{request.Topic}'.
+        Верни ответ СТРОГО в формате массива JSON. Никаких приветствий, размышлений или текста до и после массива!
+        Только чистый валидный JSON! Структура каждого объекта должна быть ТОЧНО такой:
+        [
+            {{
+                ""id"": 1,
+                ""questionText"": ""Какой спутник у Земли?"",
+                ""options"": [""Фобос"", ""Луна"", ""Европа"", ""Титан""],
+                ""correctAnswer"": ""Луна""
+            }}
+        ]";
 
         try
         {
