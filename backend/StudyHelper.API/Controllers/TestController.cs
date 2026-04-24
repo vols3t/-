@@ -29,16 +29,18 @@ public class TestController : ControllerBase
 
         var count = request.QuestionsCount > 0 ? request.QuestionsCount : 3;
         var prompt = $@"Ты крутой учитель. Создай тест из {count} вопросов по теме: '{request.Topic}'.
-        Верни ответ СТРОГО в формате массива JSON. Никаких приветствий, размышлений или текста до и после массива!
-        Только чистый валидный JSON! Структура каждого объекта должна быть ТОЧНО такой:
-        [
-            {{
-                ""id"": 1,
-                ""questionText"": ""Какой спутник у Земли?"",
-                ""options"": [""Фобос"", ""Луна"", ""Европа"", ""Титан""],
-                ""correctAnswer"": ""Луна""
-            }}
-        ]";
+Верни ответ СТРОГО в формате JSON. Никаких приветствий или текста до и после JSON!
+Структура должна быть ТОЧНО такой (объект со списком вопросов):
+{{
+  ""questions"": [
+    {{
+      ""id"": 1,
+      ""questionText"": ""Какой спутник у Земли?"",
+      ""options"": [""Фобос"", ""Луна"", ""Европа"", ""Титан""],
+      ""correctAnswer"": ""Луна""
+    }}
+  ]
+}}";
 
         try
         {
@@ -55,6 +57,7 @@ public class TestController : ControllerBase
             {
                 model = "openai/gpt-4o-mini",
                 messages = new[] { new { role = "user", content = prompt } },
+                response_format = new { type = "json_object" },
             };
 
             var jsonPayload = JsonSerializer.Serialize(requestBody);
