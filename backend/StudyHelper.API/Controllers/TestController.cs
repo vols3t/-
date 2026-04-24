@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudyHelper.API.Models;
 using System.Text.Json;
 using System.Text;
+using System.Net;
 using StudyHelper.API.Data;
 
 namespace StudyHelper.API.Controllers;
@@ -42,14 +43,22 @@ public class TestController : ControllerBase
 
         try
         {
-            using var client = new HttpClient();
+            var proxy = new WebProxy
+            {
+                Address = new Uri("socks5://127.0.0.1:1080")
+            };
+
+            var handler = new HttpClientHandler { Proxy = proxy };
+            using var client = new HttpClient(handler);
+            // ----------------------------------------------
+
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
-            client.DefaultRequestHeaders.Add("HTTP-Referer", "http://81.26.176.215"); 
+            client.DefaultRequestHeaders.Add("HTTP-Referer", "http://81.26.176.215");
             client.DefaultRequestHeaders.Add("X-Title", "StudyHelper");
 
             var requestBody = new
             {
-                model = "gpt-4o-mini",
+                model = "openai/gpt-4o-mini",
                 messages = new[] { new { role = "user", content = prompt } },
                 max_tokens = 4000
             };
@@ -61,7 +70,8 @@ public class TestController : ControllerBase
 
             if (!response.IsSuccessStatusCode)
             {
-                return StatusCode(500, new { error = "Ошибка от API нейросети. Проверь консоль." });
+                Console.WriteLine($"Ошибка OpenRouter: {responseString}");
+                return StatusCode(500, new { error = "Ошибка от API нейросети.", details = responseString });
             }
 
             using var jsonDoc = JsonDocument.Parse(responseString);
@@ -78,21 +88,22 @@ public class TestController : ControllerBase
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             var resultJson = JsonSerializer.Deserialize<List<Question>>(aiText, options);
-            
+
             if (resultJson == null)
                 return StatusCode(500, new { error = "Не удалось распознать JSON от нейросети" });
 
             foreach (var question in resultJson)
                 question.Id = 0;
-                
+
             _context.Questions.AddRange(resultJson);
             await _context.SaveChangesAsync();
 
-            var viewJson = resultJson.Select(q => new { 
-                q.Id, 
-                questionText = q.Text, 
-                options = q.Answers, 
-                correctAnswer = q.CorrectAnswer 
+            var viewJson = resultJson.Select(q => new
+            {
+                q.Id,
+                questionText = q.Text,
+                options = q.Answers,
+                correctAnswer = q.CorrectAnswer
             });
 
             return Ok(viewJson);
@@ -100,7 +111,7 @@ public class TestController : ControllerBase
         catch (Exception ex)
         {
             Console.WriteLine($"Критическая ошибка: {ex.Message}");
-            return StatusCode(500, new { error = "Произошел сбой в коде сервера." });
+            return StatusCode(500, new { error = $"Произошел сбой на сервере: {ex.Message}" });
         }
     }
 }
