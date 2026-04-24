@@ -15,7 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  const questions = JSON.parse(testDataString);
+  let questions = JSON.parse(testDataString); // please, don't do something like bimbimbambam here
+
+  if (questions && !Array.isArray(questions) && questions.questions) {
+    questions = questions.questions;
+  }
+
+  topicTitle.textContent = `Тема: ${topicString}`;
   topicTitle.textContent = `Тема: ${topicString}`;
 
   function renderTest() {
