@@ -1,3 +1,14 @@
+function escapeHTML(str) {
+  if (!str) return "";
+  return str.replace(/[&<>"']/g, (m) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[m]));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("generateForm");
   const generateBtn = document.getElementById("generateBtn");
@@ -15,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     generateBtn.disabled = true;
 
     try {
-      const response = await fetch("/api/Test/create", {
+      const response = await fetch("http://localhost:5152/api/Test/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic: topic, questionsCount: parseInt(count) }),
@@ -31,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("studentTest", JSON.stringify(data));
       localStorage.setItem("studentTopic", topic);
 
-      window.location.href = "results.html";
+      window.location.href = "test.html";
     } catch (error) {
       errorBox.textContent = "Ошибка: " + error.message;
       errorBox.classList.remove("hidden");

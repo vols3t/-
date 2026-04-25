@@ -16,4 +16,11 @@ public class QuestionRepository : IQuestionRepository
     {
         return await _context.Questions.FindAsync(id);
     }
+
+    public async Task AddRangeAsync(IEnumerable<Question> questions)
+    {
+        await _context.Questions.AddRangeAsync(questions);
+        
+        await _context.SaveChangesAsync();
+    }
 }

@@ -1,3 +1,14 @@
+function escapeHTML(str) {
+  if (!str) return "";
+  return str.replace(/[&<>"']/g, (m) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[m]));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const topicTitle = document.getElementById("topicTitle");
   const testContainer = document.getElementById("testContainer");
@@ -15,13 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  let questions = JSON.parse(testDataString); // please, don't do something like bimbimbambam here
+  let questions = JSON.parse(testDataString);
 
   if (questions && !Array.isArray(questions) && questions.questions) {
     questions = questions.questions;
   }
 
-  topicTitle.textContent = `Тема: ${topicString}`;
   topicTitle.textContent = `Тема: ${topicString}`;
 
   function renderTest() {
@@ -29,20 +39,20 @@ document.addEventListener("DOMContentLoaded", () => {
     questions.forEach((q, index) => {
       html += `
                 <div class="question-block" id="qblock_${index}">
-                    <div class="question-title">${index + 1}. ${q.questionText}</div>
+                    <div class="question-title">${index + 1}. ${escapeHTML(q.questionText)}</div>
                     <ul class="answers-list">
                         ${q.options
-                          .map(
-                            (ans, ansIndex) => `
+          .map(
+              (ans, ansIndex) => `
                             <li>
                                 <label class="answer-label" id="label_${index}_${ansIndex}">
-                                    <input type="radio" name="question_${index}" value="${ans}">
-                                    <span>${ans}</span>
+                                    <input type="radio" name="question_${index}" value="${escapeHTML(ans)}">
+                                    <span>${escapeHTML(ans)}</span>
                                 </label>
                             </li>
                         `,
-                          )
-                          .join("")}
+          )
+          .join("")}
                     </ul>
                 </div>
                 ${index < questions.length - 1 ? '<hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ccc;">' : ""}
@@ -53,17 +63,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   renderTest();
+
   finishTestBtn.addEventListener("click", async () => {
     const studentAnswers = [];
     let allAnswered = true;
 
     questions.forEach((q, index) => {
-      const selectedRadio = document.querySelector(
-        `input[name="question_${index}"]:checked`,
-      );
-      if (!selectedRadio) {
-        allAnswered = false;
-      }
+      const selectedRadio = document.querySelector(`input[name="question_${index}"]:checked`);
+      if (!selectedRadio) allAnswered = false;
 
       studentAnswers.push({
         questionID: q.id,
@@ -80,21 +87,15 @@ document.addEventListener("DOMContentLoaded", () => {
     finishTestBtn.disabled = true;
 
     try {
-      const response = await fetch(
-        "http://81.26.190.46/api/Submit/submit",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(studentAnswers),
-        },
-      );
+      const response = await fetch("http://localhost:5152/api/Submit/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(studentAnswers),
+      });
 
-      if (!response.ok) {
-        throw new Error("Ошибка при проверке теста на сервере");
-      }
+      if (!response.ok) throw new Error("Ошибка при проверке теста на сервере");
 
       const backendData = await response.json();
-
       showResults(backendData);
     } catch (error) {
       alert("Ошибка связи с сервером: " + error.message);
@@ -110,33 +111,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     scoreText.textContent = `Твой результат: ${backendData.correctAnswers} из ${backendData.totalAnswers}`;
 
-    const percentage =
-      backendData.totalAnswers > 0
-        ? backendData.correctAnswers / backendData.totalAnswers
-        : 0;
+    const percentage = backendData.totalAnswers > 0 ? backendData.correctAnswers / backendData.totalAnswers : 0;
 
-    if (percentage === 1) {
-      scoreMessage.textContent = "Идеально!";
-    } else if (percentage >= 0.7) {
-      scoreMessage.textContent = "Хорошая работа! Но есть куда расти";
-    } else if (percentage >= 0.4) {
-      scoreMessage.textContent =
-        "Удовлетворительно. Стоит еще раз перечитать тему";
-    } else {
+    if (percentage === 1) scoreMessage.textContent = "Идеально!";
+    else if (percentage >= 0.7) scoreMessage.textContent = "Хорошая работа! Но есть куда расти";
+    else if (percentage >= 0.4) scoreMessage.textContent = "Удовлетворительно. Стоит еще раз перечитать тему";
+    else {
       scoreMessage.textContent = "Плохо. Нужно подучить материал";
       scoreBoard.style.backgroundColor = "#e74c3c";
     }
 
     questions.forEach((q, index) => {
-      const qResult = backendData.questions.find(
-        (res) => res.questionId === q.id,
-      );
-
+      const qResult = backendData.questions.find((res) => res.questionId === q.id);
       if (!qResult) return;
 
-      const allRadios = document.querySelectorAll(
-        `input[name="question_${index}"]`,
-      );
+      const allRadios = document.querySelectorAll(`input[name="question_${index}"]`);
 
       allRadios.forEach((radio, ansIndex) => {
         radio.disabled = true;
@@ -146,16 +135,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if (radio.value === qResult.correctAnswer) {
           label.classList.add("correct");
           if (radio.value !== qResult.realAnswer) {
-            label.innerHTML += " <span>(Правильный ответ)</span>";
+            const span = document.createElement("span");
+            span.textContent = " (Правильный ответ)";
+            label.appendChild(span);
           }
         }
 
-        if (
-          radio.value === qResult.realAnswer &&
-          radio.value !== qResult.correctAnswer
-        ) {
+        if (radio.value === qResult.realAnswer && radio.value !== qResult.correctAnswer) {
           label.classList.add("wrong");
-          label.innerHTML += " <span>(Твоя ошибка)</span>";
+          const span = document.createElement("span");
+          span.textContent = " (Твоя ошибка)";
+          label.appendChild(span);
         }
       });
     });
