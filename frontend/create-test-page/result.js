@@ -1,153 +1,38 @@
 function escapeHTML(str) {
-  if (!str) return "";
-  return str.replace(/[&<>"']/g, (m) => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  }[m]));
+    if (!str) return "";
+    return str.replace(/[&<>"']/g, (m) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[m]));
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const topicTitle = document.getElementById("topicTitle");
-  const testContainer = document.getElementById("testContainer");
-  const finishTestBtn = document.getElementById("finishTestBtn");
-  const scoreBoard = document.getElementById("scoreBoard");
-  const scoreText = document.getElementById("scoreText");
-  const scoreMessage = document.getElementById("scoreMessage");
-  const homeBtn = document.getElementById("homeBtn");
+    const backendData = JSON.parse(localStorage.getItem("lastTestResult"));
+    const topicString = localStorage.getItem("studentTopic");
+    const testContainer = document.getElementById("testContainer");
+    const scoreBoard = document.getElementById("scoreBoard");
+    const scoreText = document.getElementById("scoreText");
+    const scoreMessage = document.getElementById("scoreMessage");
+    const topicTitle = document.getElementById("topicTitle");
 
-  const testDataString = localStorage.getItem("studentTest");
-  const topicString = localStorage.getItem("studentTopic");
-
-  if (!testDataString) {
-    window.location.href = "index.html";
-    return;
-  }
-
-  let questions = JSON.parse(testDataString);
-
-  if (questions && !Array.isArray(questions) && questions.questions) {
-    questions = questions.questions;
-  }
-
-  topicTitle.textContent = `Тема: ${topicString}`;
-
-  function renderTest() {
-    let html = "";
-    questions.forEach((q, index) => {
-      html += `
-                <div class="question-block" id="qblock_${index}">
-                    <div class="question-title">${index + 1}. ${escapeHTML(q.questionText)}</div>
-                    <ul class="answers-list">
-                        ${q.options
-          .map(
-              (ans, ansIndex) => `
-                            <li>
-                                <label class="answer-label" id="label_${index}_${ansIndex}">
-                                    <input type="radio" name="question_${index}" value="${escapeHTML(ans)}">
-                                    <span>${escapeHTML(ans)}</span>
-                                </label>
-                            </li>
-                        `,
-          )
-          .join("")}
-                    </ul>
-                </div>
-                ${index < questions.length - 1 ? '<hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ccc;">' : ""}
-            `;
-    });
-    testContainer.innerHTML = html;
-    finishTestBtn.classList.remove("hidden");
-  }
-
-  renderTest();
-
-  finishTestBtn.addEventListener("click", async () => {
-    const studentAnswers = [];
-    let allAnswered = true;
-
-    questions.forEach((q, index) => {
-      const selectedRadio = document.querySelector(`input[name="question_${index}"]:checked`);
-      if (!selectedRadio) allAnswered = false;
-
-      studentAnswers.push({
-        questionID: q.id,
-        answer: selectedRadio ? selectedRadio.value : "",
-      });
-    });
-
-    if (!allAnswered) {
-      alert("Пожалуйста, выбери варианты ответа на все вопросы!");
-      return;
+    if (!backendData) {
+        window.location.href = "index.html";
+        return;
     }
 
-    finishTestBtn.textContent = "Проверяем на сервере... ";
-    finishTestBtn.disabled = true;
-
-    try {
-      const response = await fetch("http://localhost:5152/api/Submit/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(studentAnswers),
-      });
-
-      if (!response.ok) throw new Error("Ошибка при проверке теста на сервере");
-
-      const backendData = await response.json();
-      showResults(backendData);
-    } catch (error) {
-      alert("Ошибка связи с сервером: " + error.message);
-      finishTestBtn.textContent = "Завершить тест";
-      finishTestBtn.disabled = false;
-    }
-  });
-
-  function showResults(backendData) {
-    finishTestBtn.classList.add("hidden");
-    homeBtn.classList.remove("hidden");
+    topicTitle.textContent = `Результаты по теме: ${topicString}`;
     scoreBoard.classList.remove("hidden");
-
     scoreText.textContent = `Твой результат: ${backendData.correctAnswers} из ${backendData.totalAnswers}`;
 
-    const percentage = backendData.totalAnswers > 0 ? backendData.correctAnswers / backendData.totalAnswers : 0;
-
-    if (percentage === 1) scoreMessage.textContent = "Идеально!";
-    else if (percentage >= 0.7) scoreMessage.textContent = "Хорошая работа! Но есть куда расти";
-    else if (percentage >= 0.4) scoreMessage.textContent = "Удовлетворительно. Стоит еще раз перечитать тему";
-    else {
-      scoreMessage.textContent = "Плохо. Нужно подучить материал";
-      scoreBoard.style.backgroundColor = "#e74c3c";
-    }
-
-    questions.forEach((q, index) => {
-      const qResult = backendData.questions.find((res) => res.questionId === q.id);
-      if (!qResult) return;
-
-      const allRadios = document.querySelectorAll(`input[name="question_${index}"]`);
-
-      allRadios.forEach((radio, ansIndex) => {
-        radio.disabled = true;
-        const label = document.getElementById(`label_${index}_${ansIndex}`);
-        label.classList.add("disabled");
-
-        if (radio.value === qResult.correctAnswer) {
-          label.classList.add("correct");
-          if (radio.value !== qResult.realAnswer) {
-            const span = document.createElement("span");
-            span.textContent = " (Правильный ответ)";
-            label.appendChild(span);
-          }
-        }
-
-        if (radio.value === qResult.realAnswer && radio.value !== qResult.correctAnswer) {
-          label.classList.add("wrong");
-          const span = document.createElement("span");
-          span.textContent = " (Твоя ошибка)";
-          label.appendChild(span);
-        }
-      });
+    let html = "";
+    backendData.questions.forEach((q, index) => {
+        const isCorrect = q.isCorrectAnswer;
+        html += `
+      <div class="question-block" style="padding: 15px; border-radius: 8px; background: ${isCorrect ? '#eafaf1' : '#fdedec'}; margin-bottom: 15px;">
+        <div style="font-weight: bold;">${index + 1}. ${escapeHTML(q.questionText)}</div>
+        <p>Ваш ответ: <span style="color: ${isCorrect ? 'green' : 'red'}">${escapeHTML(q.realAnswer)}</span></p>
+        ${!isCorrect ? `<p style="color: green;">Правильный ответ: ${escapeHTML(q.correctAnswer)}</p>` : ""}
+      </div>`;
     });
-  }
+    testContainer.innerHTML = html;
+    document.getElementById("homeBtn").classList.remove("hidden");
 });

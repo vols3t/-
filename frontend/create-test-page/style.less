@@ -109,10 +109,8 @@ legend {
 input[type='file'] {
     max-width: 100%;
 }
-/* Конец отключения стилей */
 
 
-// Переменные (Опционально, но полезно для LESS)
 @body-bg: #bed8ff;
 @text-color: #1e293b;
 @header-color: #09174a;
@@ -201,7 +199,6 @@ input[type="number"] {
     color: #050e32;
     transition: border-color 0.2s;
 
-    // Использование & для обращения к родителю (input[type="text"], input[type="number"])
     &:focus {
         outline: none;
         border-color: @focus-color;
@@ -265,7 +262,7 @@ input[type="number"] {
 
             &:has(input:checked) {
                 background: deepskyblue;
-                color: white; // чтобы текст был виден
+                color: white;
             }
         }
     }
