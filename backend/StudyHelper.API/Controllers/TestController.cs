@@ -56,8 +56,18 @@ public class TestController : ControllerBase
 
             var responseString = await response.Content.ReadAsStringAsync();
             using var jsonDoc = JsonDocument.Parse(responseString);
-            var aiText = jsonDoc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content")
-                .GetString();
+            
+            if (!jsonDoc.RootElement.TryGetProperty("choices", out var choices))
+            {
+                Console.WriteLine("--- ОШИБКА ФОРМАТА ОТ ИИ ---");
+                Console.WriteLine(responseString); 
+                return StatusCode(500, new { error = "ИИ прислал странный ответ. Посмотри логи сервера." });
+            }
+
+            var aiText = choices[0].GetProperty("message").GetProperty("content").GetString();
+            
+            // var aiText = jsonDoc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content")
+            //     .GetString();
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             var aiResponse = JsonSerializer.Deserialize<AiResponseDto>(aiText, options);

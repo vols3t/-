@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch("/api/Test/create", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ topic: topic, questionsCount: parseInt(count) }),
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({topic: topic, questionsCount: parseInt(count)}),
             });
 
             if (!response.ok) {
@@ -72,39 +72,41 @@ document.addEventListener("DOMContentLoaded", () => {
         finishTestBtn.classList.remove("hidden");
     }
 
-    finishTestBtn.addEventListener("click", async () => {
-        const questions = JSON.parse(localStorage.getItem("studentTest"));
-        const studentAnswers = [];
-        let allAnswered = true;
+    if (finishTestBtn) {
+        finishTestBtn.addEventListener("click", async () => {
+            const questions = JSON.parse(localStorage.getItem("studentTest"));
+            const studentAnswers = [];
+            let allAnswered = true;
 
-        questions.forEach((q, index) => {
-            const selected = document.querySelector(`input[name="question_${index}"]:checked`);
-            if (!selected) allAnswered = false;
-            studentAnswers.push({
-                questionID: q.id,
-                answer: selected ? selected.value : ""
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="question_${index}"]:checked`);
+                if (!selected) allAnswered = false;
+                studentAnswers.push({
+                    questionID: q.id,
+                    answer: selected ? selected.value : ""
+                });
             });
+
+            if (!allAnswered) {
+                alert("Пожалуйста, ответьте на все вопросы!");
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/Submit/submit", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(studentAnswers),
+                });
+
+                if (!response.ok) throw new Error("Ошибка при проверке");
+
+                const result = await response.json();
+                localStorage.setItem("lastTestResult", JSON.stringify(result));
+                window.location.href = "results.html";
+            } catch (error) {
+                alert(error.message);
+            }
         });
-
-        if (!allAnswered) {
-            alert("Пожалуйста, ответьте на все вопросы!");
-            return;
-        }
-
-        try {
-            const response = await fetch("/api/Submit/submit", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(studentAnswers),
-            });
-
-            if (!response.ok) throw new Error("Ошибка при проверке");
-
-            const result = await response.json();
-            localStorage.setItem("lastTestResult", JSON.stringify(result));
-            window.location.href = "results.html";
-        } catch (error) {
-            alert(error.message);
-        }
-    });
+    }
 });
