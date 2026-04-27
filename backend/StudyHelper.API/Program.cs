@@ -56,4 +56,4 @@ app.Use(async (context, next) =>
     await next();
 });
 
-app.Run("http://localhost:5152");
+app.Run();
