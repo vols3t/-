@@ -38,9 +38,10 @@ public class TestController : ControllerBase
             var prompt = $@"Создай JSON тест на тему: '{request.Topic}'. Количество вопросов: {count}. 
                         Формат: {{""questions"": [{{""id"":1, ""questionText"":""..."", ""options"":[""...""], ""correctAnswer"":""...""}}]}}";
 
-            var proxy = new WebProxy { Address = new Uri("socks5://127.0.0.1:1080") };
-            var handler = new HttpClientHandler { Proxy = proxy };
-            using var client = new HttpClient(handler);
+            // var proxy = new WebProxy { Address = new Uri("socks5://127.0.0.1:1080") };
+            // var handler = new HttpClientHandler { Proxy = proxy };
+            // using var client = new HttpClient(handler);
+            using var client = new HttpClient();
 
             client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"Bearer {_apiKey}");
 

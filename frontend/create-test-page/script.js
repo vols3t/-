@@ -10,9 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const generateBtn = document.getElementById("generateBtn");
     const loadingDiv = document.getElementById("loading");
     const errorBox = document.getElementById("errorBox");
+    const setupSection = document.getElementById("setupSection");
+
+    const testArea = document.getElementById("testArea");
     const testContainer = document.getElementById("testContainer");
     const topicTitle = document.getElementById("topicTitle");
     const finishTestBtn = document.getElementById("finishTestBtn");
+
+    // const API_URL = "http://localhost:5152"; // Базовый адрес твоего бэкенда
+    const API_URL = window.location.origin;
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -24,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         generateBtn.disabled = true;
 
         try {
-            const response = await fetch("/api/Test/create", {
+            const response = await fetch(`/api/Test/create`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({topic: topic, questionsCount: parseInt(count)}),
@@ -36,11 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const data = await response.json();
+
             localStorage.setItem("studentTest", JSON.stringify(data.questions));
             localStorage.setItem("studentTopic", topic);
 
             renderTest(data.questions, topic);
         } catch (error) {
+            console.error(error);
             errorBox.textContent = "Ошибка: " + error.message;
             errorBox.classList.remove("hidden");
         } finally {
@@ -50,26 +58,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function renderTest(questions, topic) {
-        document.querySelector('.settings-card').classList.add('hidden');
+        setupSection.classList.add('hidden');
+        testArea.classList.remove('hidden');
+
         topicTitle.textContent = `Тема: ${topic}`;
+
         let html = "";
         questions.forEach((q, index) => {
             html += `
-        <div class="question-block" style="margin-bottom: 20px;">
-            <div class="question-title" style="font-weight: bold;">${index + 1}. ${escapeHTML(q.questionText)}</div>
-            <ul class="answers-list" style="list-style: none; padding: 0;">
-                ${q.options.map((ans, ansIndex) => `
-                    <li>
-                        <label class="answer-label">
-                            <input type="radio" name="question_${index}" value="${escapeHTML(ans)}">
-                            <span>${escapeHTML(ans)}</span>
-                        </label>
-                    </li>`).join("")}
-            </ul>
-        </div><hr>`;
+            <div class="question-block" style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                <div class="question-title" style="font-weight: bold; font-size: 1.1em; margin-bottom: 10px;">
+                    ${index + 1}. ${escapeHTML(q.questionText)}
+                </div>
+                <ul class="answers-list" style="list-style: none; padding: 0;">
+                    ${q.options.map((ans) => `
+                        <li style="margin-bottom: 8px;">
+                            <label class="answer-label" style="cursor: pointer; display: flex; align-items: center;">
+                                <input type="radio" name="question_${index}" value="${escapeHTML(ans)}" style="margin-right: 10px;">
+                                <span>${escapeHTML(ans)}</span>
+                            </label>
+                        </li>`).join("")}
+                </ul>
+            </div>`;
         });
+
         testContainer.innerHTML = html;
-        finishTestBtn.classList.remove("hidden");
     }
 
     if (finishTestBtn) {
@@ -80,7 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             questions.forEach((q, index) => {
                 const selected = document.querySelector(`input[name="question_${index}"]:checked`);
-                if (!selected) allAnswered = false;
+                if (!selected) {
+                    allAnswered = false;
+                }
                 studentAnswers.push({
                     questionID: q.id,
                     answer: selected ? selected.value : ""
@@ -88,24 +103,30 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (!allAnswered) {
-                alert("Пожалуйста, ответьте на все вопросы!");
+                alert("Пожалуйста, ответьте на все вопросы перед завершением!");
                 return;
             }
 
+            finishTestBtn.disabled = true;
+            finishTestBtn.textContent = "Проверяем...";
+
             try {
-                const response = await fetch("/api/Submit/submit", {
+                const response = await fetch(`${API_URL}/api/Submit/submit`, {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(studentAnswers),
                 });
 
-                if (!response.ok) throw new Error("Ошибка при проверке");
+                if (!response.ok) throw new Error("Ошибка при проверке ответов");
 
                 const result = await response.json();
                 localStorage.setItem("lastTestResult", JSON.stringify(result));
+
                 window.location.href = "results.html";
             } catch (error) {
-                alert(error.message);
+                alert("Ошибка: " + error.message);
+                finishTestBtn.disabled = false;
+                finishTestBtn.textContent = "Завершить тест";
             }
         });
     }

@@ -7,37 +7,46 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <a href="../index.html" class="back-link">⬅ Назад на главную</a>
+<div class="container">
+    <a href="../index.html" class="back-link">⬅ Назад на главную</a>
 
-        <div class="header-section">
-            <h1>Панель Студента</h1>
-            <p>Сгенерируй тест для проверки своих знаний</p>
-        </div>
-
-        <div class="settings-card">
-            <form id="generateForm">
-                <div class="input-group">
-                    <label for="topic">Какую тему хочешь повторить?</label>
-                    <input type="text" id="topic" placeholder="Например: Основы ООП в C#" required>
-                </div>
-                <div class="input-group">
-                    <label for="questionsCount">Количество вопросов:</label>
-                    <input type="number" id="questionsCount" min="1" max="20" value="5" required>
-                </div>
-
-                <div id="errorBox" class="error-box hidden"></div>
-
-                <button type="submit" class="btn-generate" id="generateBtn">Создать тест</button>
-            </form>
-        </div>
-
-        <div id="loading" class="loading hidden">
-            <div class="spinner"></div>
-            <p>Нейронка собирает вопросы... Подожди секунд 10-15 </p>
-        </div>
+    <div class="header-section">
+        <h1>Панель Студента</h1>
+        <p>Сгенерируй тест для проверки своих знаний</p>
     </div>
 
-    <script src="script.js"></script>
+    <div id="setupSection" class="settings-card">
+        <form id="generateForm">
+            <div class="input-group">
+                <label for="topic">Какую тему хочешь повторить?</label>
+                <input type="text" id="topic" placeholder="Например: Основы ООП в C#" required>
+            </div>
+            <div class="input-group">
+                <label for="questionsCount">Количество вопросов:</label>
+                <input type="number" id="questionsCount" min="1" max="20" value="5" required>
+            </div>
+
+            <div id="errorBox" class="error-box hidden"></div>
+
+            <button type="submit" class="btn-generate" id="generateBtn">Создать тест</button>
+        </form>
+    </div>
+
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Нейронка собирает вопросы... Подожди секунд 10-15</p>
+    </div>
+
+    <div id="testArea" class="hidden">
+        <div class="settings-card">
+            <h2 id="topicTitle" style="color: #3498db; margin-bottom: 20px; text-align: center;"></h2>
+            <div id="testContainer">
+            </div>
+            <button id="finishTestBtn" class="btn-generate">Завершить тест</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
