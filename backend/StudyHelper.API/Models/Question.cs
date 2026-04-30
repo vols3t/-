@@ -11,4 +11,6 @@ public class Question
     [JsonPropertyName("options")] public List<string> Answers { get; set; } = new();
 
     public string CorrectAnswer { get; set; } = "";
+
+    [JsonPropertyName("explanation")] public string Explanation { get; set; } = "";
 }

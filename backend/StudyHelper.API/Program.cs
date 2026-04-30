@@ -90,18 +90,6 @@ using StudyHelper.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var frontendUrl = builder.Configuration["FrontendUrl"] ?? "http://localhost:63343";
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins(frontendUrl) 
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
-
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -124,7 +112,9 @@ builder.Services.AddScoped<ITestService, TestService>();
 
 var app = builder.Build();
 
-app.UseCors("AllowFrontend"); 
+// Фронтенд раздаётся самим бэком — CORS не нужен (один origin)
+app.UseDefaultFiles();  // / → /index.html
+app.UseStaticFiles();   // раздаёт frontend/ (настроено через WebRoot в .csproj)
 
 app.MapControllers();
 

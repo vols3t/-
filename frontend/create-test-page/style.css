@@ -1,5 +1,10 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
 
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 body { background-color: #f4f7f6; color: #333; padding: 40px 20px; }
 
 .container { max-width: 600px; margin: 0 auto; }
@@ -11,17 +16,19 @@ body { background-color: #f4f7f6; color: #333; padding: 40px 20px; }
 .header-section h1 { color: #2c3e50; font-size: 2.2rem; margin-bottom: 5px; }
 .header-section p { color: #7f8c8d; font-size: 1.1rem; }
 
-.settings-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid #3498db; }
+.settings-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid #3498db; animation: fadeSlideUp 0.4s ease both; transition: box-shadow 0.3s ease; }
+.settings-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.09); }
 
 .input-group { margin-bottom: 20px; }
 .input-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #34495e; }
 .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.3s; }
-.input-group input:focus { border-color: #3498db; }
+.input-group input:focus { border-color: #3498db; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.12); }
 
 
-.btn-generate { width: 100%; padding: 15px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
-.btn-generate:hover { background-color: #2980b9; }
-.btn-generate:disabled { background-color: #95a5a6; cursor: not-allowed; }
+.btn-generate { width: 100%; padding: 15px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease; }
+.btn-generate:hover { background-color: #2980b9; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(52, 152, 219, 0.35); }
+.btn-generate:active { transform: translateY(0); box-shadow: none; }
+.btn-generate:disabled { background-color: #95a5a6; cursor: not-allowed; transform: none; box-shadow: none; }
 
 .loading { text-align: center; margin: 30px 0; }
 .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
@@ -30,6 +37,27 @@ body { background-color: #f4f7f6; color: #333; padding: 40px 20px; }
 .hidden { display: none !important; }
 
 .error-box { background-color: #ffeaa7; color: #d35400; padding: 10px; border-radius: 6px; margin-bottom: 15px; text-align: center; font-weight: bold; font-size: 0.9rem;}
+
+.notice-banner {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.explanation-box {
+    background-color: #eaf3fb;
+    border-left: 3px solid #3498db;
+    color: #2c3e50;
+    padding: 8px 12px;
+    margin-top: 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
 
 /* --- Стили для страницы прохождения теста --- */
 .question-block { margin-bottom: 25px; }
@@ -46,9 +74,9 @@ body { background-color: #f4f7f6; color: #333; padding: 40px 20px; }
     border: 2px solid #ecf0f1;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-.answer-label:hover { border-color: #3498db; background: #ebf5fb; }
+.answer-label:hover { border-color: #3498db; background: #ebf5fb; transform: translateX(4px); box-shadow: 0 2px 8px rgba(52,152,219,0.12); }
 .answer-label input[type="radio"] { margin-right: 10px; transform: scale(1.2); cursor: pointer; }
 
 /* Цвета для результатов */
@@ -65,6 +93,7 @@ body { background-color: #f4f7f6; color: #333; padding: 40px 20px; }
     text-align: center;
     margin-bottom: 25px;
     box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+    animation: fadeSlideUp 0.4s ease both;
 }
 .score-board h2 { margin-bottom: 5px; font-size: 2rem; }
 

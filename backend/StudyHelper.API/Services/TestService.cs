@@ -220,7 +220,8 @@ public class TestService : ITestService
                 Answers = question.Answers,
                 RealAnswer = userAnswer.Answer,
                 IsCorrectAnswer = isCorrect,
-                CorrectAnswer = question.CorrectAnswer
+                CorrectAnswer = question.CorrectAnswer,
+                Explanation = isCorrect ? null : question.Explanation
             });
         }
 

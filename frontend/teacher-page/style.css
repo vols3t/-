@@ -5,6 +5,11 @@
   font-family: "Segoe UI", sans-serif;
 }
 
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 body {
   background-color: #f4f7f6;
   color: #333;
@@ -49,6 +54,11 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
   border-top: 4px solid #27ae60;
+  animation: fadeSlideUp 0.4s ease both;
+  transition: box-shadow 0.3s ease;
+}
+.settings-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
 }
 
 .input-group {
@@ -71,6 +81,7 @@ body {
 }
 .input-group input:focus {
   border-color: #27ae60;
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.12);
 }
 
 .btn-generate {
@@ -83,14 +94,22 @@ body {
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
 }
 .btn-generate:hover {
   background-color: #219653;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(39, 174, 96, 0.35);
+}
+.btn-generate:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 .btn-generate:disabled {
   background-color: #95a5a6;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .loading {
@@ -124,6 +143,7 @@ body {
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  animation: fadeSlideUp 0.4s ease both;
 }
 .result-header {
   display: flex;
@@ -216,6 +236,66 @@ body {
   border-color: #95a5a6;
 }
 
+.selection-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.btn-select {
+  background: none;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #34495e;
+  transition: background 0.2s;
+}
+.btn-select:hover {
+  background: #ecf0f1;
+}
+
+.question-checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  cursor: pointer;
+}
+.question-checkbox-wrap input {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.correct-answer-highlight {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.correct-marker {
+  font-weight: bold;
+  margin-right: 2px;
+}
+
+.notice-banner {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
 @media print {
   body {
     background-color: white;
@@ -231,5 +311,24 @@ body {
   }
   .test-content {
     font-size: 14pt;
+  }
+  .print-exclude {
+    display: none !important;
+  }
+
+  /* "С ответами": маркер виден в чёрном — работает на ч/б принтере */
+  .correct-answer-highlight {
+    color: black !important;
+  }
+  .correct-marker {
+    color: black !important;
+  }
+
+  /* "Без ответов": скрываем и маркер, и выделение */
+  body.hide-answers .correct-answer-highlight {
+    font-weight: normal !important;
+  }
+  body.hide-answers .correct-marker {
+    display: none !important;
   }
 }

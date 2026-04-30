@@ -8,4 +8,5 @@ public class QuestionResultDto
     public string? RealAnswer { get; set; }
     public string? CorrectAnswer { get; set; }
     public bool IsCorrectAnswer { get; set; } = false;
+    public string? Explanation { get; set; }
 }

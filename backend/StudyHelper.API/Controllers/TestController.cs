@@ -34,9 +34,10 @@ public class TestController : ControllerBase
 
         try
         {
-            var count = request.QuestionsCount > 0 ? request.QuestionsCount : 3;
-            var prompt = $@"Создай JSON тест на тему: '{request.Topic}'. Количество вопросов: {count}. 
-                        Формат: {{""questions"": [{{""id"":1, ""questionText"":""..."", ""options"":[""...""], ""correctAnswer"":""...""}}]}}";
+            var count = Math.Min(request.QuestionsCount > 0 ? request.QuestionsCount : 3, 5);
+            var prompt = $@"Создай JSON тест на тему: '{request.Topic}'. Количество вопросов: {count}.
+СТРОГО верни только JSON без пояснений. Важно: поле correctAnswer должно быть ТОЧНОЙ копией одного из элементов массива options (тот же текст, регистр, пробелы).
+Пример: {{""questions"":[{{""id"":1,""questionText"":""Столица Франции?"",""options"":[""Москва"",""Париж"",""Берлин"",""Рим""],""correctAnswer"":""Париж"",""explanation"":""Париж является столицей Франции с X века.""}}]}}";
 
             // var proxy = new WebProxy { Address = new Uri("socks5://127.0.0.1:1080") };
             // var handler = new HttpClientHandler { Proxy = proxy };
@@ -84,14 +85,23 @@ public class TestController : ControllerBase
                     for (int i = 0; i < q.Answers.Count; i++)
                         q.Answers[i] = sanitizer.Sanitize(q.Answers[i]);
                 }
-
                 q.CorrectAnswer = sanitizer.Sanitize(q.CorrectAnswer);
+                q.Explanation = sanitizer.Sanitize(q.Explanation);
             }
 
             await _questionRepository.AddRangeAsync(questions);
-            
+
             return Ok(new
-                { questions = questions.Select(q => new { q.Id, questionText = q.Text, options = q.Answers }) });
+            {
+                questions = questions.Select(q => new
+                {
+                    q.Id,
+                    questionText = q.Text,
+                    options = q.Answers,
+                    correctAnswer = q.CorrectAnswer,
+                    explanation = q.Explanation
+                })
+            });
         }
         catch (Exception ex)
         {

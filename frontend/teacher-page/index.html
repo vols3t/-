@@ -10,9 +10,13 @@
     <div class="container">
         <a href="../index.html" class="back-link no-print">⬅ Назад на главную</a>
 
-        <div class="header-section">
+        <div class="header-section no-print">
             <h1>Панель Преподавателя</h1>
             <p>Генерация теста с помощью ИИ</p>
+        </div>
+
+        <div class="notice-banner no-print">
+            Генерация работает на платной нейросети. Пожалуйста, не злоупотребляйте
         </div>
 
         <div class="settings-card no-print">
@@ -38,16 +42,22 @@
         <div id="resultSection" class="result-section hidden">
             <div class="result-header no-print">
                 <h2>Готовый тест</h2>
-                
+
                 <div class="download-section">
                     <span class="download-label">Сохранить в PDF:</span>
                     <div class="print-actions">
                         <button id="downloadPdfWithAnsBtn" class="btn-pdf">С ответами</button>
-                        <button id="downloadPdfNoAnsBtn" class="btn-pdf btn-pdf-outline"> Без ответов</button>
+                        <button id="downloadPdfNoAnsBtn" class="btn-pdf btn-pdf-outline">Без ответов</button>
                     </div>
                 </div>
             </div>
-            
+
+            <div class="selection-controls no-print">
+                <span>Выбрать вопросы для PDF:</span>
+                <button id="selectAllBtn" class="btn-select">Выбрать все</button>
+                <button id="deselectAllBtn" class="btn-select">Снять все</button>
+            </div>
+
             <div id="testContent" class="test-content">
             </div>
         </div>

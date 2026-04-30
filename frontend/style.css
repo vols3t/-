@@ -5,6 +5,11 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 body {
     background-color: #f4f7f6;
     display: flex;
@@ -24,12 +29,14 @@ h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
     color: #2c3e50;
+    animation: fadeSlideUp 0.45s ease both;
 }
 
 .subtitle {
     font-size: 1.2rem;
     color: #7f8c8d;
     margin-bottom: 40px;
+    animation: fadeSlideUp 0.45s 0.08s ease both;
 }
 
 .cards-container {
@@ -47,9 +54,12 @@ h1 {
     color: inherit;
     width: 300px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     border: 2px solid transparent;
 }
+
+.student-card { animation: fadeSlideUp 0.45s 0.15s ease both; }
+.teacher-card { animation: fadeSlideUp 0.45s 0.25s ease both; }
 
 .card h2 {
     margin-bottom: 15px;
@@ -62,8 +72,8 @@ h1 {
 }
 
 .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
 }
 
 .student-card:hover {

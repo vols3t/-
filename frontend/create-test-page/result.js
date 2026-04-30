@@ -27,10 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
     backendData.questions.forEach((q, index) => {
         const isCorrect = q.isCorrectAnswer;
         html += `
-      <div class="question-block" style="padding: 15px; border-radius: 8px; background: ${isCorrect ? '#eafaf1' : '#fdedec'}; margin-bottom: 15px;">
+      <div class="question-block" style="padding: 15px; border-radius: 8px; background: ${isCorrect ? '#eafaf1' : '#fdedec'}; margin-bottom: 15px; animation: fadeSlideUp 0.4s ${index * 0.08}s ease both; opacity: 0;">
         <div style="font-weight: bold;">${index + 1}. ${escapeHTML(q.questionText)}</div>
         <p>Ваш ответ: <span style="color: ${isCorrect ? 'green' : 'red'}">${escapeHTML(q.realAnswer)}</span></p>
         ${!isCorrect ? `<p style="color: green;">Правильный ответ: ${escapeHTML(q.correctAnswer)}</p>` : ""}
+        ${!isCorrect && q.explanation ? `<div class="explanation-box">💡 ${escapeHTML(q.explanation)}</div>` : ""}
       </div>`;
     });
     testContainer.innerHTML = html;
