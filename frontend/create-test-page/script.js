@@ -25,9 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const topicTitle = document.getElementById("topicTitle");
   const finishTestBtn = document.getElementById("finishTestBtn");
 
-  // Если страница открыта с того же порта, что и API (5152) — используем относительный путь.
-  // Иначе (file://, IDE-сервер на другом порту, Live Server и т.п.) — бьём напрямую на бэк.
-  const API_URL = window.location.port === "5152" ? "" : "http://localhost:5152";
+  // Прод (открыто по IP/домену сервера, любой не-локальный хост) → относительный путь, nginx проксирует /api/.
+  // Локально с http://localhost:5152/ → тоже относительный (тот же origin).
+  // Локально через file:// или другой dev-сервер на localhost (например 5500) → бьём напрямую на бэк 5152.
+  const isLocalHost = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+  const API_URL = isLocalHost && window.location.port !== "5152" ? "http://localhost:5152" : "";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();

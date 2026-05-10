@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentTestData = [];
   let currentTestTopic = "";
 
-  const API_URL = window.location.port === "5152" ? "" : "http://localhost:5152";
+  const isLocalHost = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+  const API_URL = isLocalHost && window.location.port !== "5152" ? "http://localhost:5152" : "";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
