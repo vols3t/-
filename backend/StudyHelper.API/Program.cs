@@ -110,9 +110,24 @@ else
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<ITestService, TestService>();
 
+// В Development разрешаем любые origin'ы — фронт может открываться из IDE, Live Server, file:// и т.д.
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("DevAllowAll", policy =>
+            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+    });
+}
+
 var app = builder.Build();
 
-// Фронтенд раздаётся самим бэком — CORS не нужен (один origin)
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("DevAllowAll");
+}
+
+// Фронтенд раздаётся самим бэком при заходе на http://localhost:5152/
 app.UseDefaultFiles();  // / → /index.html
 app.UseStaticFiles();   // раздаёт frontend/ (настроено через WebRoot в .csproj)
 

@@ -29,6 +29,14 @@
                     <label for="questionsCount">Количество вопросов:</label>
                     <input type="number" id="questionsCount" min="1" max="20" value="5" required>
                 </div>
+                <div class="input-group">
+                    <label for="difficulty">Сложность:</label>
+                    <select id="difficulty" required>
+                        <option value="easy">Лёгкая</option>
+                        <option value="medium" selected>Средняя</option>
+                        <option value="hard">Сложная</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn-generate" id="generateBtn">Сгенерировать тест</button>
             </form>
         </div>

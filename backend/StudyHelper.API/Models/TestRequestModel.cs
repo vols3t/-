@@ -4,4 +4,5 @@ public class TestRequestModel
 {
     public string Topic { get; set; }
     public int QuestionsCount { get; set; }
+    public string Difficulty { get; set; } = "medium";
 }

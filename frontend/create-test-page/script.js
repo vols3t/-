@@ -25,13 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const topicTitle = document.getElementById("topicTitle");
   const finishTestBtn = document.getElementById("finishTestBtn");
 
-  // file:// → прямой доступ без сервера, иначе — относительный путь (сервер раздаёт и фронт, и API)
-  const API_URL = window.location.protocol === "file:" ? "http://localhost:5152" : "";
+  // Если страница открыта с того же порта, что и API (5152) — используем относительный путь.
+  // Иначе (file://, IDE-сервер на другом порту, Live Server и т.п.) — бьём напрямую на бэк.
+  const API_URL = window.location.port === "5152" ? "" : "http://localhost:5152";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const topic = document.getElementById("topic").value;
     const count = document.getElementById("questionsCount").value;
+    const difficulty = document.getElementById("difficulty").value;
 
     errorBox.classList.add("hidden");
     loadingDiv.classList.remove("hidden");
@@ -41,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch(`${API_URL}/api/Test/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: topic, questionsCount: parseInt(count) }),
+        body: JSON.stringify({ topic: topic, questionsCount: parseInt(count), difficulty: difficulty }),
       });
 
       if (!response.ok) {

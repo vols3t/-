@@ -29,6 +29,14 @@
                 <label for="questionsCount">Количество вопросов (максимум 5):</label>
                 <input type="number" id="questionsCount" min="1" max="5" value="5" required>
             </div>
+            <div class="input-group">
+                <label for="difficulty">Сложность:</label>
+                <select id="difficulty" required>
+                    <option value="easy">Лёгкая</option>
+                    <option value="medium" selected>Средняя</option>
+                    <option value="hard">Сложная</option>
+                </select>
+            </div>
 
             <div id="errorBox" class="error-box hidden"></div>
 

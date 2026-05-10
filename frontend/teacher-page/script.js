@@ -20,12 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentTestData = [];
   let currentTestTopic = "";
 
-  const API_URL = window.location.protocol === "file:" ? "http://localhost:5152" : "";
+  const API_URL = window.location.port === "5152" ? "" : "http://localhost:5152";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     currentTestTopic = document.getElementById("topic").value;
     const count = document.getElementById("questionsCount").value;
+    const difficulty = document.getElementById("difficulty").value;
 
     resultSection.classList.add("hidden");
     loadingDiv.classList.remove("hidden");
@@ -35,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch(`${API_URL}/api/Test/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: currentTestTopic, questionsCount: parseInt(count) }),
+        body: JSON.stringify({ topic: currentTestTopic, questionsCount: parseInt(count), difficulty: difficulty }),
       });
 
       if (!response.ok) throw new Error("Ошибка сервера");
